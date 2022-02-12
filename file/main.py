@@ -1,16 +1,18 @@
-import requests
+from aiogram import Bot,Dispatcher,executor
+from config import bot_token
+import asyncio
 
-API_LINK = "https://api.telegram.org/bot5167627424:AAFGOxsZa3YH4egdKF2FjDBsrsbh37rhqRs"
+loop = asyncio.get_event_loop()
+bot = Bot(bot_token,parse_mode="HTML")
+dp = Dispatcher(bot,loop=loop) #обработчик
 
-updates = requests.get(API_LINK + "/getUpdates?offset=-1").json()
+if __name__ == "__main__":
 
-print(updates)
 
-#get a meassage
-message = updates['result'][0]['message']
-chat_id = message['from']['id']
-text = message['text']
 
-sent_message = requests.get(API_LINK + f'/sendMessage?chat_id={chat_id}&text= ТУТ БУДЕТ РАССПИСАНИЕ 1')
+
+# API_LINK = "https://api.telegram.org/bot5167627424:AAFGOxsZa3YH4egdKF2FjDBsrsbh37rhqRs"
+
+
 
 
