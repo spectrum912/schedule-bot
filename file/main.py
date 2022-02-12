@@ -11,6 +11,6 @@ message = updates['result'][0]['message']
 chat_id = message['from']['id']
 text = message['text']
 
-sent_message = requests.get(API_LINK + f'/sendMessage?chat_id={chat_id}&text= ТУТ БУДЕТ РАССПИСАНИЕ')
+sent_message = requests.get(API_LINK + f'/sendMessage?chat_id={chat_id}&text= ТУТ БУДЕТ РАССПИСАНИЕ 1')
 
 
