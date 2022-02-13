@@ -3,12 +3,9 @@ import time
 import re
 from selenium import webdriver
 from webdriver_manager.firefox import GeckoDriverManager
-from colorama import init, Fore
-init(autoreset=True)
 
 
 def get_schedule(group):
-
     URL = f"https://education.khai.edu/union/schedule/group/{group}"
 
     driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
@@ -26,8 +23,7 @@ def get_schedule(group):
     table_soup = BeautifulSoup(str(table), 'html.parser')
     tds = table_soup.find_all("td")
 
-    schedule_chisl = {}
-    schedule_znam = {}
+    schedule = {}
 
     day = ""
     couple_chisl = []
@@ -74,7 +70,6 @@ def get_schedule(group):
             couple_znam.append("empty")
             isTimeFor2 = False
 
-
         if re.fullmatch(r"\d\d:\d\d - \d\d:\d\d", text):  # 08:00 - 09:35
             if keys == {'rowspan': '2'}:
                 # print("time for 2")
@@ -84,25 +79,25 @@ def get_schedule(group):
                 isTimeFor1 = True
 
         if len(couple_chisl) == 4 and len(couple_znam) == 4 and day != "":
-            schedule_chisl[day] = couple_chisl
-            schedule_znam[day] = couple_znam
-
+            schedule[day] = {"numerator": couple_chisl, "denominator": couple_znam}
             couple_chisl = []
             couple_znam = []
             day = ""
             isTimeFor1 = False
             isTimeFor2 = False
 
-    return schedule_chisl, schedule_znam
+    return schedule
 
 
 if __name__ == "__main__":
-    schedule_chisl, schedule_znam = get_schedule("559m")
+    from colorama import init, Fore
 
-    for day in schedule_chisl.keys():
+    init(autoreset=True)
+
+    schedule = get_schedule("345")
+    for day in schedule.keys():
         print(day)
         for c in range(4):
-            print(c+1)
-            print(schedule_chisl[day][c])
-            print(Fore.BLUE + schedule_znam[day][c])
-
+            print(c + 1)
+            print(schedule[day]["numerator"][c])
+            print(Fore.BLUE + schedule[day]["denominator"][c])
