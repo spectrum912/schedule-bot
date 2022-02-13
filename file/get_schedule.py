@@ -101,3 +101,4 @@ if __name__ == "__main__":
             print(c + 1)
             print(schedule[day]["numerator"][c])
             print(Fore.BLUE + schedule[day]["denominator"][c])
+#
